@@ -1,49 +1,23 @@
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <stdio.h>
-#include "listnode.h"
-#include "listedge.h"
 
-Node* create_node(int id){
-    Node* n = (Node*)malloc(sizeof(Node));
+#include "graph.h"
+
+node* create_node(int id){
+    node* n = (node*)malloc(sizeof(node));
     if(!n){
         return NULL;
     }
-    n->id=id;
-    n->listinto;
-    n->listoutfrom; 
+    n->node_num=id;
+    n->edges=NULL;
+    n->next=NULL;
+    
     return n;
 }
 
-void add(Node** H, int id){
-    if(*H){
-        Node* tmp = *H;
-        while(tmp){
-            if(tmp->id==id){
-                change_node( tmp, H);
-             }
-            tmp++;
-        }
-        add_first(*H, id);
-    }
-}
 
-void change_node(Node* n, Node** H ){
-    Edge *e = n->listoutfrom;
-    Edge *tmp = e;
-    while(!tmp){
-        int n=tmp->n->id;
-        Node *n1=tmp->n;
-        Node* tmph=H;
-        while(tmph->id != n ){
-            tmph++;
-        }
-        remove_edgen(n1->listinto,n1);
-        tmp++;
-    }
-}
-
-void add_first(Node** H, int id){
-    Node* n = create_node(id);
+void add_first(node** H, int id){
+    node* n = create_node(id);
     if(!n){
         printf("no memory!");
         return;
@@ -52,113 +26,142 @@ void add_first(Node** H, int id){
     *H = n;
 }
 
-void add_last(Node** H, int id){
-    Node* n = create_node(id);
-    if(!n){
-        printf("no memory!");
-        return;
+
+void change_node(node* n1, node** H ){
+     edge *e = n1->edges;
+     edge *tmp = n1->edges;
+     while(!tmp){
+         int n = tmp->endpoint->node_num;
+         pnode n1=tmp->endpoint;
+         node* tmph=*H;
+         while(tmph->node_num != n ){
+             tmph++;
+         }
+         tmp++;
+     }
+ }
+
+
+void add(node** H, int id){
+    if(*H){
+        node* tmp = *H;
+        while(tmp){
+            if(tmp->node_num==id){
+                change_node( tmp, H);
+                return;
+            }
+            tmp=tmp->next;
+        }
+        add_first(H, id);
     }
-    if(!*H){
-        *H = n;
-        return;
-    }
-    Node * tmp = *H;
-    while(tmp->next)
-        tmp = tmp->next;
-    tmp->next = n;
 }
 
-void deleten(Node** H){
-    while(*H){
-        Node* tmp = *H;
+
+void deleten(node** H){
+    if(!H){
+        return;
+    }
+    if(!(*H)->next){
+        *H=NULL;
+        free(*H);
+    }
+    else{
+        while((*H)->next!=NULL){
+            node* tmp = *H;
+            *H = (*H)->next;
+            edge* e1=tmp->edges;
+            deletee(&e1);
+            free(tmp);
+        }
+    
+        node* tmp = *H;
         *H = (*H)->next;
-        deletee(tmp->listinto);
-        deletee(tmp->listoutfrom);
+        edge* e1=tmp->edges;
+        deletee(&e1);
+        tmp=NULL;
         free(tmp);
+        H=NULL;
+        free(H);
     }
 }
 
-void print_list(Node* H){
+
+void print_list(node* H){
     while(H){
-        printf("%d -> ", H->id);
+        if(H->next!=NULL){
+            
+            printf("%d ", H->node_num);
+            printf("\n");
+        if(H->edges!=NULL){
+            printf("edges:");
+            edge *e1=H->edges;
+            print_liste(e1);   
+        }
+        printf(" => ");
+        printf("\n");
         H = H->next;
+        }
+        else{
+            printf("%d ", H->node_num);
+            if(H->edges!=NULL){
+                printf("edges:");
+                edge *e1=H->edges;
+                print_liste(e1);
+            }
+            H = H->next;
+        }
     }
     printf("||\n");
 }
 
-void remove_node(Node** H, int id){
-   Node *Hcopy =*H;
-    if(!Hcopy)
+
+void remove_node(node** H, int id){
+    if(!H)
         return;
-    if((Hcopy)->id == id){
-        Node *tmp = *H;
-
-        //fixing others
-        Edge *e = tmp->listoutfrom;
-        Edge *tmpe = e;
-        while(!tmpe){
-            int n=tmpe->n->id;
-            Node *n1=tmpe->n; 
-            Node* tmph=H;
-            while(tmph->id != n ){
-                tmph++;
-            }
-            remove_edgen(n1->listinto,n1);
-            tmp++;
-        }
-        e = tmp->listinto;
-        tmpe = e;
-        while(!tmpe){
-            int n=tmpe->n->id;
-            Node *n1=tmpe->n; 
-            Node* tmph=H;
-            while(tmph->id != n ){
-                tmph++;
-            }
-            remove_edgen(n1->listoutfrom,n1);
-            tmp++;
-        }
-
-        deletee(tmp->listinto);
-        deletee(tmp->listoutfrom);
-        Hcopy = (Hcopy)->next;
+    
+    if((*H)->node_num == id){
+        node *tmp = *H;
+        edge *e = tmp->edges;
+        //deletee(e);
+        *H=(*H)->next;
+        tmp=NULL;
         free(tmp);
-    }
-    Node* tmp = Hcopy;
-    while(tmp->next && tmp->next->id != id)
-        tmp = tmp->next;
-    if(!tmp->next)
         return;
-    Node *tmp2 = tmp->next;
-    //fixing others
-        Edge *e = tmp2->listoutfrom;
-        Edge *tmpe = e;
-        while(!tmpe){
-            int n=tmpe->n->id;
-            Node *n1=tmpe->n; 
-            Node* tmph=H;
-            while(tmph->id != n ){
-                tmph++;
-            }
-            remove_edgen(n1->listinto,n1);
-            tmp++;
-        }
-        e = tmp2->listinto;
-        tmpe = e;
-        while(!tmpe){
-            int n=tmpe->n->id;
-            Node *n1=tmpe->n; 
-            Node* tmph=H;
-            while(tmph->id != n ){
-                tmph++;
-            }
-            remove_edgen(n1->listoutfrom,n1);
-            tmp++;
-        }
-
-        deletee(tmp->listinto);
-        deletee(tmp->listoutfrom);
-
-    tmp->next = tmp->next->next;
+    }
+    node *tmp=*H;
+    while(tmp->next && tmp->next->node_num !=id){
+        tmp=tmp->next;
+    }
+    if(!tmp->next){
+        return;
+    }
+    node *tmp2=tmp->next;
+    tmp->next=tmp->next->next;
     free(tmp2);
+    
+          
 }
+
+
+// int main(){
+
+
+//     printf("helloworld\n");
+//      node* Head1;
+//      for (int i=0; i<20;i++){
+//         add_first(&Head1,i);
+//      }
+//      print_list(Head1); 
+//      for (int i=0;i<20;i=i+5){
+//          remove_node(&Head1,i);
+//      }
+//      print_list(Head1);
+//      deleten(&Head1);
+//      print_list(Head1);
+
+//     printf("helloworld\n");
+
+//     return 0;
+
+
+//  }

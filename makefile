@@ -5,28 +5,22 @@ AR = ar
 # make all
 all: graph
 
-graph: main.o my_lib.a
-	$(CC) $(FLAGS) -o graph main.o my_lib.a
+graph: main.o edge.o node.o
+	$(CC) $(FLAGS) -o graph main.o edge.o node.o
 
 # make o
-again.o: main.c edgelist.h listnode.h
+main.o: main.c listnode.h
 	$(CC) $(FLAGS) -c main.c
 
 
-edge.o: edge.c edgelist.h listnode.h
+edge.o: edge.c listnode.h
 	$(CC) $(FLAGS) -c edge.c
 
 
-node.o: node.c listnode.h edgelist.h
+node.o: node.c listnode.h listedge.h
 	$(CC) $(FLAGS) -c node.c
 
 
-
-
-
-# make lib
-my_lib.a: main.o 
-	$(AR) -rcs my_lib.a main.o 
 
 
 
