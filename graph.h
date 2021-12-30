@@ -31,7 +31,8 @@ void remove_node(node**, int);
 edge* create_edge( node* dest, int weight);
 void add_firste(node** H, int src_id, node* dest, int weight);
 void deletee(edge** H);
-void print_liste(edge* H);
+void print_liste(edge** H);
+void remove_edge( edge** H, node* n);
 
 
 

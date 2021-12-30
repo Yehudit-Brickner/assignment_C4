@@ -49,13 +49,8 @@ void deletee(edge** H){
     }
     if(!(*H)->next){
        // *H=NULL;
-        free(*H);
+        free(H);
     }
-    // while(*H){
-    //     edge* tmp = *H;
-    //     *H = (*H)->next;
-    //     free(tmp);
-    // }
     else{
         while((*H)->next!=NULL){
             edge* tmp = *H;
@@ -72,27 +67,32 @@ void deletee(edge** H){
 }
 
 
-void print_liste(edge* H){
-    while(H){
-        if(H->next!=NULL){
-        printf("%d, %d -> ", H->endpoint->node_num, H->weight);
-        H = H->next;
+void print_liste(edge** H){
+    while(*H){
+        if((*H)->next!=NULL){
+        printf(" n-%d, w-%d -> ", (*H)->endpoint->node_num, (*H)->weight);
+        (*H) = (*H)->next;
         }
         else{
-        printf("%d, %d ", H->endpoint->node_num, H->weight);
-        H = H->next;   
+        printf("n-%d, w-%d ", (*H)->endpoint->node_num, (*H)->weight);
+        (*H) = (*H)->next;   
         }
     }
 }
 
 
- void remove_edge( edge** H, node* n){
+ void remove_edge( edge** H, node* n){ 
     if(!*H)
         return;
     if((*H)->endpoint->node_num == n->node_num){
+
         edge *tmp = *H;
         *H = (*H)->next;
+        tmp->endpoint=NULL;
+        tmp->next=NULL;
+        //tmp=NULL;
         free(tmp);
+        printf("deletd the first edge\n");
     }
     else{
         edge *tmp = *H;
@@ -104,6 +104,7 @@ void print_liste(edge* H){
         }
         edge *tmp2 = tmp->next;
         tmp->next = tmp->next->next;
+        tmp=NULL;
         free(tmp2);
     }
 }
@@ -117,12 +118,17 @@ int main(){
      Head1->node_num=0;
      Head1->edges=NULL;
      Head1->next= NULL;
-     
+      printf("helloworld\n");
+       printf("hi1\n");
+   
+    print_list(Head1); 
+   
+   printf("hi1\n");
+   
      for (int i=1;i<7;i++){
          add(&Head1,i);
      }
-    printf("helloworld\n");
-    print_list(Head1); 
+    printf("hi1\n");
     // making sure that adding edges workes
     node *tmp2=NULL;
     node *Hcopy=Head1;
@@ -137,33 +143,33 @@ int main(){
         }   
         for(int j=1;j<7;j++){
             if(j!=i){
-                add_firste(&Head1, j,tmp2,1);       
+                add_firste(&Head1, j,tmp2,j);       
             }
         }
     }
-    
+    printf("hi\n");
     print_list(Head1);
     // making sure that removing edges workes
     node *tmp3=NULL;
     node *Hcopy1=Head1;
-    for (int i=1;i<7;i++){
-        node *Hcopy1=Head1;
-        while(Hcopy1){
-            if(Hcopy1->node_num==i){
-                tmp3=Hcopy;
-                break;
-            }
-            Hcopy1=Hcopy1->next;
-        }   
-        //remove_edge(,tmp3);    need to send pointer to the linkedlist of edges    
-    
+    edge *H =Hcopy1->next->edges;
+    int i=6;
+    while(Hcopy1){
+        if(Hcopy1->node_num==i){
+            tmp3=Hcopy;
+           break;
         }
+        Hcopy1=Hcopy1->next;
+    }
+
+    //remove_edge(&H,tmp3);   
+        // need to send pointer to the linkedlist of edges    
+    
+     remove_node (&Head1, 3);  
     
     print_list(Head1);  
-
-
-
     deleten(&Head1);
+    free(Head1);
     print_list(Head1);
     printf("helloworld\n");
     
