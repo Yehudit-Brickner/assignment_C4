@@ -41,7 +41,13 @@ void insert_node_cmd(pnode *head);
 void delete_node_cmd(pnode *head);
 void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode* head);
-void shortsPath_cmd(pnode head);
+
+int find_num_nodes(node **H);
+int* assigment(node **H, node *src);
+int* dijakstra(node **H, node *src);
+void shortsPath_cmd(node **head, int src, int dest);
 void TSP_cmd(pnode head);
+
+int find_num_nodes(node** H);
 
 #endif

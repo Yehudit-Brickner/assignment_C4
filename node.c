@@ -30,7 +30,7 @@ void add_first(node** H, int id){
 void change_node(node* n1, node** H ){
      edge *e = n1->edges;
      edge *tmp = n1->edges;
-     while(!tmp){
+     while(tmp){
          int n = tmp->endpoint->node_num;
          pnode n1=tmp->endpoint;
          node* tmph=*H;
@@ -128,8 +128,9 @@ void remove_node(node** H, int id){
                 edge* e1 = Hcopy->edges;
                 remove_edge(&e1,tmp);
             }
+            Hcopy=Hcopy->next;
         }
-        Hcopy=Hcopy->next;
+       // Hcopy=Hcopy->next;
 
         *H=(*H)->next;
         tmp=NULL;
@@ -150,6 +151,7 @@ void remove_node(node** H, int id){
             remove_edge(&e1,tmp2);
             break;
         }
+       // Hcopy=Hcopy->next;
     }
     Hcopy=Hcopy->next;
 
