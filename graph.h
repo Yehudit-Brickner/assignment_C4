@@ -46,8 +46,9 @@ int find_num_nodes(node **H);
 int* assigment(node **H, node *src);
 int* dijakstra(node **H, node *src);
 void shortsPath_cmd(node **head, int src, int dest);
-void TSP_cmd(pnode head);
-
+void TSP_cmd(node **head, int *arr,int length);
 int find_num_nodes(node** H);
+void permute(int *a, int left, int right, int lengtha , int **mat, int low, int count, int max,int *arr);
+void swap(int *x, int *y);
 
 #endif
