@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include "graph.h"
 
@@ -14,8 +15,6 @@ edge* create_edge( node* dest, int weight){
     e->next=NULL;
     return e;
 }
-
-
 
 
 void add_firste(node** H, int src_id, node* dest, int weight){
@@ -42,7 +41,6 @@ void add_firste(node** H, int src_id, node* dest, int weight){
 }
 
 
-
 void deletee(edge** H){
     if(!(*H)){
         return;
@@ -52,17 +50,17 @@ void deletee(edge** H){
         free(H);
     }
     else{
-        while((*H)->next!=NULL){
+        while((*H)!=NULL){
             edge* tmp = *H;
             *H = (*H)->next;
             free(tmp);
         }
-        edge* tmp = *H;
-        *H = (*H)->next;
-        tmp=NULL;
-        free(tmp);
-        H=NULL;
-        free(H);
+        // edge* tmp = *H;
+        // *H = (*H)->next;
+        // tmp=NULL;
+        // free(tmp);
+        // H=NULL;
+        // free(H);
     }
 }
 
@@ -81,22 +79,28 @@ void print_liste(edge** H){
 }
 
 
- void remove_edge( edge** H, node* n){ 
+void remove_edge( edge** H, node* del, node* src){ 
     if(!*H)
         return;
-    if((*H)->endpoint->node_num == n->node_num){
+    if((*H)->endpoint->node_num == del->node_num){
 
         edge *tmp = *H;
-        *H = (*H)->next;
+        //edge *tmp2 =*H;
+        src->edges=(*H)->next;
+       // *H = (*H)->next;
         tmp->endpoint=NULL;
-        tmp->next=NULL;
+        tmp->weight=INT_MAX;
+        //*H=tmp->next;
         //tmp=NULL;
+        
+        //tmp->next=NULL;
         free(tmp);
+    
         printf("deletd the first edge\n");
     }
     else{
         edge *tmp = *H;
-        while(tmp->next && (tmp->next)->endpoint->node_num != n->node_num){
+        while(tmp->next && (tmp->next)->endpoint->node_num != del->node_num){
             tmp = tmp->next;
         }
         if(!tmp->next){
@@ -110,7 +114,7 @@ void print_liste(edge** H){
 }
 
 
-
+/*
 // int main(){
 //      printf("helloworld\n");
 //      pnode Head1;
@@ -177,3 +181,4 @@ void print_liste(edge** H){
     
 
 // }
+*/

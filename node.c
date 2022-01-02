@@ -28,11 +28,11 @@ void add_first(node** H, int id){
 
 
 void change_node(node* n1, node** H ){
-     edge *e = n1->edges;
+     //edge *e = n1->edges;
      edge *tmp = n1->edges;
      while(tmp){
          int n = tmp->endpoint->node_num;
-         pnode n1=tmp->endpoint;
+         //node* n1=tmp->endpoint;
          node* tmph=*H;
          while(tmph->node_num != n ){
              tmph++;
@@ -64,9 +64,11 @@ void deleten(node** H){
     if(!(*H)->next){
         *H=NULL;
         free(*H);
+        
+        
     }
     else{
-        while((*H)->next!=NULL){
+        while((*H)!=NULL){
             node* tmp = *H;
             *H = (*H)->next;
             edge* e1=tmp->edges;
@@ -74,14 +76,14 @@ void deleten(node** H){
             free(tmp);
         }
     
-        node* tmp = *H;
-        *H = (*H)->next;
-        edge* e1=tmp->edges;
-        deletee(&e1);
-        tmp=NULL;
-        free(tmp);
-        H=NULL;
-        free(H);
+        // node* tmp = *H;
+        // *H = (*H)->next;
+        // edge* e1=tmp->edges;
+        // deletee(&e1);
+        // tmp=NULL;
+        // free(tmp);
+        // H=NULL;
+        // free(H);
     }
 }
 
@@ -126,7 +128,7 @@ void remove_node(node** H, int id){
         while(Hcopy){
             if(Hcopy!=tmp){
                 edge* e1 = Hcopy->edges;
-                remove_edge(&e1,tmp);
+                remove_edge(&e1,tmp, Hcopy);
             }
             Hcopy=Hcopy->next;
         }
@@ -148,12 +150,12 @@ void remove_node(node** H, int id){
     while(Hcopy){
         if(Hcopy!=tmp2){
             edge* e1 = Hcopy->edges;
-            remove_edge(&e1,tmp2);
-            break;
+            remove_edge(&e1,tmp2,Hcopy);
+            //break;
         }
-       // Hcopy=Hcopy->next;
+        Hcopy=Hcopy->next;
     }
-    Hcopy=Hcopy->next;
+   // Hcopy=Hcopy->next;
 
 
     
@@ -165,7 +167,7 @@ void remove_node(node** H, int id){
           
 }
 
-
+/*
 // int main(){
 
 
@@ -188,3 +190,4 @@ void remove_node(node** H, int id){
 
 
 //  }
+*/

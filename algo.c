@@ -87,7 +87,7 @@ int* dijakstra(node **H, node *src){
 
     // starting the actual algo
     //filling initial distance from src to all others
-    node *copy = *H;
+   // node *copy = *H;
     for (int j = 1; j < num; j++){
         edge *ecopy = src->edges;
         while (ecopy != NULL && ecopy->endpoint->node_num != visited[j]){
@@ -176,14 +176,14 @@ void shortsPath_cmd(node **head , int src,int dest){
                 count=count+1;
             }
             stop=1;
-            printf("ans= %d\n",d[count]) ;
+            printf("shortest path ans= %d\n",d[count]) ;
         }
 
     free(a);
     free(d);  
     }
     else{   
-        printf("ans = -1\n");
+        printf("shortest path ans = -1\n");
     }
     }
 }
@@ -311,6 +311,8 @@ void TSP_cmd(node **head, int* arr, int length){
                     } 
                 } 
             }
+            free(a);
+            free(d);
         }
 
         else{
@@ -342,7 +344,9 @@ void TSP_cmd(node **head, int* arr, int length){
     printf("\n");
     printf("ans= %d\n",ans);
 
-
+    for (int i=0;i<l;i++){
+        free(mat[i]);
+    }
     free(mat);
     free(list);
            
@@ -353,100 +357,100 @@ void TSP_cmd(node **head, int* arr, int length){
 
 
 
-int main(){
-    int a = INT_MAX;
-    printf("hello yehudit %d\n", a);
+// int main(){
+//     int a = INT_MAX;
+//     printf("hello yehudit %d\n", a);
 
-    pnode Head1;
-    Head1 = (pnode)malloc(sizeof(node));
-    Head1->node_num = 0;
-    Head1->edges = NULL;
-    Head1->next = NULL;
+    // pnode Head1;
+    // Head1 = (pnode)malloc(sizeof(node));
+    // Head1->node_num = 0;
+    // Head1->edges = NULL;
+    // Head1->next = NULL;
 
-    print_list(Head1);
+//     print_list(Head1);
 
-    for (int i = 1; i < 10; i++){
-        add(&Head1, i);
-    }
+//     for (int i = 1; i < 10; i++){
+//         add(&Head1, i);
+//     }
 
-    // making sure that adding edges workes
-    node *tmp2 = NULL;
-    node *Hcopy = Head1;
-    int weights[] = {2, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15};
-    int count = 0;
-    for (int i = 0; i < 10; i++){
-        node *Hcopy = Head1;
-        while (Hcopy){
-            if (Hcopy->node_num == i){
-                tmp2 = Hcopy;
-                break;
-            }
-            Hcopy = Hcopy->next;
-        }
-        for (int j = 0; j < 10; j=j+2){
-            if (j != i){
-                add_firste(&Head1, j, tmp2, weights[count]);
-                count = count + 1;
-            }
-        }
-    }
-    print_list(Head1);
-
-    
-int arr[]={8,6,2,4,0};
-TSP_cmd(&Head1, arr,5);
-
-
-
-
-
-/*
-    shortsPath_cmd(&Head1, 3,2);
-    shortsPath_cmd(&Head1, 0,2);
-    shortsPath_cmd(&Head1, 2,2);
-
-    // int *array = dijakstra(&Head1, Head1);
-    // printf("print array\n");
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     printf("%d,", array[i]);
-    // }
-    // printf("\n");
+//     // making sure that adding edges workes
+//     node *tmp2 = NULL;
+//     node *Hcopy = Head1;
+//     int weights[] = {2, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15};
+//     int count = 0;
+//     for (int i = 0; i < 10; i++){
+//         node *Hcopy = Head1;
+//         while (Hcopy){
+//             if (Hcopy->node_num == i){
+//                 tmp2 = Hcopy;
+//                 break;
+//             }
+//             Hcopy = Hcopy->next;
+//         }
+//         for (int j = 0; j < 10; j=j+2){
+//             if (j != i){
+//                 add_firste(&Head1, j, tmp2, weights[count]);
+//                 count = count + 1;
+//             }
+//         }
+//     }
+//     print_list(Head1);
 
     
-    // a=find_num_nodes(&Head1);
-    // printf("num of nodes is %d\n",a)  ;
-    // print_list(Head1);
-    // printf("removing 0 ( end of link)\n");
-    // remove_node(&Head1, 0);
-    // a=find_num_nodes(&Head1);
-    // printf("num of nodes is %d\n",a)  ;
-    // print_list(Head1);
-    // printf("removing 3(begining of link)\n");
-    // remove_node(&Head1, 3);
-    // a=find_num_nodes(&Head1);
-    // printf("num of nodes is %d\n",a)  ;
-    // print_list(Head1);
-    // printf("adding\n");
-    // for (int i=1;i<5;i++){
-    //      add(&Head1,i);
-    // }
-    // a=find_num_nodes(&Head1);
-    // printf("num of nodes is %d\n",a)  ;
-    // print_list(Head1);
-    // printf("removing 2(middle of link)\n");
-    // remove_node(&Head1, 2);
-    // a=find_num_nodes(&Head1);
-    // printf("num of nodes is %d\n",a)  ;
-    // print_list(Head1);
-    // printf("delete list\n");
-    */
+// int arr[]={8,6,2,4,0};
+// TSP_cmd(&Head1, arr,5);
 
-    deleten(&Head1);
-    a = find_num_nodes(&Head1);
-    printf("num of nodes is %d\n", a);
 
-    print_list(Head1);
 
-    return 0;
-}
+
+
+// /*
+//     shortsPath_cmd(&Head1, 3,2);
+//     shortsPath_cmd(&Head1, 0,2);
+//     shortsPath_cmd(&Head1, 2,2);
+
+//     // int *array = dijakstra(&Head1, Head1);
+//     // printf("print array\n");
+//     // for (int i = 0; i < 4; i++)
+//     // {
+//     //     printf("%d,", array[i]);
+//     // }
+//     // printf("\n");
+
+    
+//     // a=find_num_nodes(&Head1);
+//     // printf("num of nodes is %d\n",a)  ;
+//     // print_list(Head1);
+//     // printf("removing 0 ( end of link)\n");
+//     // remove_node(&Head1, 0);
+//     // a=find_num_nodes(&Head1);
+//     // printf("num of nodes is %d\n",a)  ;
+//     // print_list(Head1);
+//     // printf("removing 3(begining of link)\n");
+//     // remove_node(&Head1, 3);
+//     // a=find_num_nodes(&Head1);
+//     // printf("num of nodes is %d\n",a)  ;
+//     // print_list(Head1);
+//     // printf("adding\n");
+//     // for (int i=1;i<5;i++){
+//     //      add(&Head1,i);
+//     // }
+//     // a=find_num_nodes(&Head1);
+//     // printf("num of nodes is %d\n",a)  ;
+//     // print_list(Head1);
+//     // printf("removing 2(middle of link)\n");
+//     // remove_node(&Head1, 2);
+//     // a=find_num_nodes(&Head1);
+//     // printf("num of nodes is %d\n",a)  ;
+//     // print_list(Head1);
+//     // printf("delete list\n");
+//     */
+
+//     deleten(&Head1);
+//     a = find_num_nodes(&Head1);
+//     printf("num of nodes is %d\n", a);
+
+//     print_list(Head1);
+
+//     return 0;
+// }

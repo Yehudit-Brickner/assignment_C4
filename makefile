@@ -2,24 +2,37 @@ CC = gcc
 FLAGS = -Wall -g
 AR = ar
 
-# make all
-all: graph
+# # make all
+# all: graph
 
-graph: main.o edge.o node.o
-	$(CC) $(FLAGS) -o graph main.o edge.o node.o
+# graph: main.o
+# 	$(CC) $(FLAGS) -o graph main.o
+
 
 # make o
-main.o: main.c listnode.h
-	$(CC) $(FLAGS) -c main.c
+
+algo.o: algo.c graph.h
+	$(CC) $(FLAGS) -c algo.c
 
 
-edge.o: edge.c listnode.h
+edge.o: edge.c graph.h
 	$(CC) $(FLAGS) -c edge.c
 
 
-node.o: node.c listnode.h listedge.h
+node.o: node.c graph.h
 	$(CC) $(FLAGS) -c node.c
 
+
+main.o: main.c graph.h
+	$(CC) $(FLAGS) -c main.c
+
+
+
+# make all
+all: graph
+
+graph: main.o
+	$(CC) $(FLAGS) -o graph main.o
 
 
 
