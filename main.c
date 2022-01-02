@@ -50,9 +50,12 @@ int main(){
          }
       }
    }
-   print_list(Head1);
+  // print_list(Head1);
 
-  // removing node
+
+  // printf("shortest path from 0 to 2\n");
+   shortsPath_cmd(&Head1, 0,2);
+   // removing node
    printf("\nremoving node 4\n");
    remove_node(&Head1, 0);
    
@@ -61,22 +64,26 @@ int main(){
    print_list(Head1);
 
 
-   shortsPath_cmd(&Head1, 8,2);
+   shortsPath_cmd(&Head1, 15,2);
 
 
 
-   int arr[]={8,6,2};
+   int arr[]={11,6,2};
    TSP_cmd(&Head1, arr,3);
 
-   
+
+      shortsPath_cmd(&Head1, 3,2);
+      shortsPath_cmd(&Head1, 3,6);
+   int arr2[]={3,6,2};
+   TSP_cmd(&Head1, arr2,3);
 
 
    deleten(&Head1);
    
-   int a = find_num_nodes(&Head1);
-   printf("num of nodes is %d\n", a);
+   // int a = find_num_nodes(&Head1);
+   // printf("num of nodes is %d\n", a);
 
-   print_list(Head1);
+  // print_list(Head1);
 
 
 return 0;

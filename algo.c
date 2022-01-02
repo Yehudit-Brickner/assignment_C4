@@ -145,46 +145,56 @@ int* dijakstra(node **H, node *src){
 
 void shortsPath_cmd(node **head , int src,int dest){
     if(src==dest){
-        printf("ans= 0\n") ;
+        printf("Dijsktra shortest path: 0\n") ;
     }
     else{
-    
-    node *hcopy=*head;
-    while(hcopy && hcopy->node_num!=src){
-        hcopy=hcopy->next;
-    }
-    if(hcopy->node_num==src){
-        int *a;
-        int *d;
-        a=assigment(head,hcopy);
-        if(a==NULL){
-            //return problem
+        node *hcopy1=*head;
+        while(hcopy1->next && hcopy1->node_num!=dest){
+            hcopy1=hcopy1->next;
         }
-        d=dijakstra(head,hcopy);
-        if(d==NULL){
-          //return problem  
+        if(hcopy1->node_num!=dest){  
+            printf("Dijsktra shortest path: = -1\n");
+            return; 
         }
-        // node *hcopy2=*head;
-        // while(hcopy2 && hcopy2->node_num!=dest){
-        // hcopy2=hcopy2->next;
 
-        int num= find_num_nodes(head);
-        int count=1;
-        int stop=0;
-        for (int i=1;i<num && stop==0;i++){
-            if(a[i]!=dest){
-                count=count+1;
+        node *hcopy=*head;
+        while(hcopy->next && hcopy->node_num!=src){
+            hcopy=hcopy->next;
+        }
+        if(hcopy->node_num==src){
+            int *a;
+            int *d;
+            a=assigment(head,hcopy);
+            if(a==NULL){
+                //return problem
             }
-            stop=1;
-            printf("shortest path ans= %d\n",d[count]) ;
-        }
+            d=dijakstra(head,hcopy);
+            if(d==NULL){
+                //return problem  
+            }
+            // node *hcopy2=*head;
+            // while(hcopy2 && hcopy2->node_num!=dest){
+            // hcopy2=hcopy2->next;
 
-    free(a);
-    free(d);  
-    }
-    else{   
-        printf("shortest path ans = -1\n");
-    }
+            int num= find_num_nodes(head);
+            int count=1;
+            int stop=0;
+            for (int i=1;i<num && stop==0;i++){
+                if(a[i]!=dest){
+                    count=count+1;
+                }
+                else{
+                stop=1;
+                printf("Dijsktra shortest path:= %d\n",d[count]) ;
+                }
+            }
+
+        free(a);
+        free(d);  
+        }
+        else{   
+            printf("Dijsktra shortest path: = -1\n");
+        }
     }
 }
 
@@ -255,7 +265,17 @@ void permute(int *a, int left, int right, int lengtha , int **mat, int low, int 
 
 void TSP_cmd(node **head, int* arr, int length){
     
-    printf("starting tsp\n");
+    //printf("starting tsp\n");
+    for (int i=0;i<length;i++){
+        node *hcopy=*head;
+        while(hcopy->next && hcopy->node_num!=arr[i]){
+            hcopy=hcopy->next;
+        }
+        if(hcopy->node_num!=arr[i]){  
+            printf("TSP shortest path: = -1\n");
+            return; 
+        }
+    }
     //make a length+1 x length+1 matrix
     int l =length+1;
     //int *mat[l][l];
@@ -341,8 +361,8 @@ void TSP_cmd(node **head, int* arr, int length){
 
     }
            // printf("x= %d\n",x);
-    printf("\n");
-    printf("ans= %d\n",ans);
+    //printf("\n");
+    printf("TSP shortest path: %d\n",ans);
 
     for (int i=0;i<l;i++){
         free(mat[i]);
