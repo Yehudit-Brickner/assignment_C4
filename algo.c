@@ -99,13 +99,16 @@ int* dijakstra(node **H, node *src){
             }
         }
     }
-   // printf("dist should have the initial distance from src to all other\n");
-    // print for self check
-   // for (int i = 0; i < 4; i++){
-     //   printf("%d,", dist[i]);
-   // }
-  //  printf("\n");
-
+//    printf("dist should have the initial distance from src to all other\n");
+//    // print for self check
+//    for (int i = 0; i < num; i++){
+//        printf("%d,", dist[i]);
+//    }
+//    printf("\n");
+//     for (int i = 0; i < num; i++){
+//        printf("%d,", visited[i]);
+//    }
+//    printf("\n");
     
 
     for (int j=1;j<num;j++){
@@ -115,8 +118,9 @@ int* dijakstra(node **H, node *src){
             copy=copy->next;    
         }
         if(copy->node_num==visited[j]){
-            edge* ee=copy->edges;
+          //  edge* ee=copy->edges;
             for(int k=1; k<num;k++){
+                edge* ee=copy->edges;
                 if(k!=j){
                     while (ee != NULL && ee->endpoint->node_num != visited[k]){
                         ee = ee->next;
@@ -133,6 +137,12 @@ int* dijakstra(node **H, node *src){
                 }
             }
         }
+//        // print for self check
+//        printf("after the j=%d iteratin \n",j);
+//    for (int i = 0; i < num; i++){
+//        printf("%d,", dist[i]);
+//    }
+//    printf("\n"); 
 
     }
 
@@ -153,7 +163,7 @@ void shortsPath_cmd(node **head , int src,int dest){
             hcopy1=hcopy1->next;
         }
         if(hcopy1->node_num!=dest){  
-            printf("Dijsktra shortest path: = -1\n");
+            printf("Dijsktra shortest path: -1\n");
             return; 
         }
 
@@ -185,7 +195,7 @@ void shortsPath_cmd(node **head , int src,int dest){
                 }
                 else{
                 stop=1;
-                printf("Dijsktra shortest path:= %d\n",d[count]) ;
+                printf("Dijsktra shortest path: %d\n",d[count]) ;
                 }
             }
 

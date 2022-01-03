@@ -52,7 +52,6 @@ void add(node** H, int id){
                 //change_node( tmp, H);
                 edge* e1 = tmp->edges;
                 deletee(&e1, tmp);
-               int x=1;
                 return;
             }
             tmp=tmp->next;
@@ -68,9 +67,7 @@ void deleten(node** H){
     }
     if(!(*H)->next){
         *H=NULL;
-        free(*H);
-        
-        
+        free(*H); 
     }
     else{
         while((*H)!=NULL){

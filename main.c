@@ -8,19 +8,19 @@
 #include "graph.h"
 #include "algo.c"
 
-int power(int base, int n){
-    int ans=base;
-    if(n==0){
-      return 1;
-    }
-    for (int i=0;i<n-1;i++){
-        ans=ans*base;
-    }
-    return ans;
-}
+// int power(int base, int n){
+//     int ans=base;
+//     if(n==0){
+//       return 1;
+//     }
+//     for (int i=0;i<n-1;i++){
+//         ans=ans*base;
+//     }
+//     return ans;
+// }
 
 int main(){
-  printf("please enter message\n");
+ // printf("please enter message\n");
   char req = getchar(); // this will mark what function we are on
   char prev_req=' ';
   char currChar=' ';
@@ -31,7 +31,9 @@ int main(){
   bool d=false;
   bool w=false;
   bool added =false;
-  
+  bool deleted=false;
+  bool shortest=false;
+  bool tsp=false;
   //int counter = 1;
   int vertex=-1;
   int dest=-1;
@@ -39,6 +41,7 @@ int main(){
   int length=0;
   int counttsp=0;
   int numnodes=0;
+  int t=0;
 
   int* tsparr;
 
@@ -153,7 +156,7 @@ int main(){
       //   //problem
       //   //return;
       // }
-      printf("this is a number\n");
+      // printf("this is a number\n");
       // arr[counter-1]=currChar-48;
       // printf("printong num %d\n",arr[counter-1]);
       //counter++;
@@ -231,19 +234,33 @@ int main(){
       if(currChar==32){
         space=true;
       } 
-      else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+      if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'|| currChar==EOF){
         prev_req=req;
         req=currChar;
-        if(currChar=='D'){
-          vertex=-1;
+        if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'){
+          v=false;
+          deleted=false;
+
         }
       }
       else{
-        vertex=currChar-48;
-        remove_node(&head, vertex);
-        vertex=-1;
+        if(currChar!=' '){
+          if(v==false && space==true){
+            vertex=currChar-48;
+            v=true;
+            space=false;
+          }
+          else if(v==true&& space==false){
+            vertex=vertex*10+currChar-48;
+          }
+        }
+        if(v==true&& space==true){
+          remove_node(&head, vertex);
+          v=false;
+          deleted=true;
+        }
       }
-      //do somthing
+    
     }
 
 
@@ -252,25 +269,40 @@ int main(){
       if(currChar==32){
         space=true;
       } 
-      else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+      if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
         prev_req=req;
         req=currChar;
-        if(currChar=='S'){
-          vertex=-1;
-          dest=-1;
+        if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'){
+          v=false;
+          d=false;
+          shortest=false;
         }
       }
       else{
-        if(vertex==-1){
-          vertex=currChar-48;
+        if(currChar!=' '){
+          if(v==false && space ==true && d==false){
+            vertex=currChar-48;
+            v=true;
+            space=false;
+          }
+          else if(v==true && space==false && d==false){
+            vertex=vertex*10+currChar-48;
+          }
+          else if( d==false && space==true){
+            dest= currChar-48;
+            d=true;
+            space=false;
+          }
+          else if( d==true && space==false){
+           dest=dest*10+currChar-48;
+          }
         }
-        else if( dest==-1){
-          dest= currChar-48;
-      }
-      if(vertex!=-1 && dest!=-1){
-        shortsPath_cmd(&head, vertex,dest);
-      }
-      //do somthing
+        else{
+          if(v==true && d==true){
+            shortsPath_cmd(&head, vertex,dest);
+            shortest=true;
+          }
+        }
     }
     }
 
@@ -280,37 +312,65 @@ int main(){
         space=true;
       } 
       
-      else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+      if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'|| currChar==EOF){
         prev_req=req;
         req=currChar;
-        if(currChar=='T'){
+        if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'){
+         
+          if(length>0){
+            free(tsparr);
+          }
           length=0;
           counttsp=0;
+          }
+        }
+      
+      // if(currChar!=' ' && currChar!='A' &&currChar!='B' &&currChar!='D' &&currChar!='S' &&currChar!='T' && currChar!='\n'&&){
+      //     if(length==0){
+      //       length=currChar-48;
+      //     }
+      // }
+      else{
+        if(currChar!=' '){
+        if(space==true){
+          tsp=false;
+        }
+        if(tsp==false && space==true){
+          t=currChar-48;
+          tsp=true;
+          space=false;
+        }
+        else if(tsp==true && space==false){
+          t=t*10+currChar-48;
+        } 
+      } 
+      else{
+        if(length==0 && t>0){
+          tsparr =(int*)malloc(t*sizeof(int));
+          length=t;
+          tsp=false;
+        }
+
+        else if(counttsp<length){
+        tsparr[counttsp]=t;
+        tsp=false;
+        counttsp=counttsp+1;
+        }
+        if(counttsp==length && length>0){
+          TSP_cmd(&head,tsparr,length);
           free(tsparr);
+          length=0;
+          counttsp=0;
+          tsp=false;
         }
       }
-      if(currChar!=' ' && currChar!='A' &&currChar!='B' &&currChar!='D' &&currChar!='S' &&currChar!='T' && currChar!='\n'){
-          if(length==0){
-            length=currChar-48;
-          }
       }
-      else{
-        tsparr[counttsp]=currChar-48;
-        counttsp=counttsp+1;
-      } 
-      if(length!=0 && currChar!=32){
-        tsparr =(int*)malloc(length*sizeof(int));
-        if(!tsparr){
-          // problem
-         }
-      }
-      if(counttsp==length){
-        TSP_cmd(&head,tsparr,length);
-        free(tsparr);
-        length=0;
-        counttsp=0;
-      }
-      //do somthing
+      // if(length==0 && currChar!=32){
+      //   tsparr =(int*)malloc(length*sizeof(int));
+      //   if(!tsparr){
+      //     // problem
+      //    }
+      // }
     }
 
 
@@ -330,6 +390,7 @@ int main(){
               }
         }
       }
+
       if(prev_req=='B'){
         if(v==true && d==true && w==true){
               node* Hcopy=head;
@@ -345,8 +406,32 @@ int main(){
                 w=false;
               }
           }
-      }  
-      print_list(head);
+      } 
+
+      if(prev_req=='D' ){
+        if(v==true && deleted==false){
+          remove_node(&head, vertex);
+          v=false;
+        }
+      }
+
+      if(prev_req=='S' ){
+        if(v==true && d==true && shortest==false){
+          shortsPath_cmd(&head, vertex,dest);
+          v=false;
+          d=false;
+        }
+
+      }
+
+      if (prev_req=='T'){
+        if(tsparr){
+          TSP_cmd(&head,tsparr,length);
+          free(tsparr);
+      }
+      }
+
+     // print_list(head);
       // if(!arr){
       // free(arr);
       // }
