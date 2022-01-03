@@ -22,18 +22,30 @@ int power(int base, int n){
 int main(){
   printf("please enter message\n");
   char req = getchar(); // this will mark what function we are on
+  char prev_req=' ';
+  char currChar=' ';
+
   bool space=false;
   bool lastnode=false;
-  char currChar=' ';
-  int counter = 1;
+  bool v=false;
+  bool d=false;
+  bool w=false;
+  bool added =false;
+  
+  //int counter = 1;
   int vertex=-1;
   int dest=-1;
   int weight=-1;
   int length=0;
   int counttsp=0;
+  int numnodes=0;
+
   int* tsparr;
-  int* arr;
+
+ // int* arr;
+
   node* head = create_node(0); //head of the list
+
   while(currChar!='\n'){
    // printf("curr= %c\n", currChar);
     if(req=='A'){
@@ -43,11 +55,15 @@ int main(){
         space=true;
       } 
       
-      else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+      if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n' || currChar==-1){
+        prev_req=req;
         req=currChar;
+        v=false;
+        // print_list(head);
         if(currChar=='A'){
           deleten(&head);
-          free(arr);
+          v=false;
+          //free(arr);
         }
       }
 
@@ -57,71 +73,92 @@ int main(){
         deleten(&head);
         head =create_node(0);
 
-        int num1=0;
-        for (int i=0;i<counter-1;i++){
-          num1=num1+(arr[i]*power(10,counter-i-2));
-          printf("arr[i]= %d\n", arr[i] );
-          printf("pow %d\n",power(10,counter-i-2) );
-        }
-        for (int i = 1; i<num1; i++){
+        //int num1=0;
+        // for (int i=0;i<counter-1;i++){
+        //   num1=num1+(arr[i]*power(10,counter-i-2));
+        //   printf("arr[i]= %d\n", arr[i] );
+        //   printf("pow %d\n",power(10,counter-i-2) );
+        // }
+        for (int i = 1; i<numnodes; i++){
            add(&head, i);
         }
-        free(arr);
-        print_list(head);
+        //free(arr);
+        // print_list(head);
         }
         else{
-          vertex=-1;
+          v=false;
         }
       }
       
       
       else{
         if(lastnode==true){
-
-          if(vertex==-1){
-            vertex=currChar-48;
+          if(currChar!=' '){
+            if(v==false && space==true && d==false && w==false){
+              vertex=currChar-48;
+             v=true;
+              space=false;
+            }
+            else if(v==true && space==false && d==false && w==false){
+              vertex=vertex*10+currChar-48;
+            }
+            else if(d== false && space==true && w==false){
+              dest= currChar-48;
+              d=true;
+              space=false;
+            }
+            else if(d==true && space==false && w==false){
+              dest=dest*10+currChar-48;
+            }
+            else if(w==false && space==true){
+              weight=currChar-48;
+              w=true;
+              space=false;
+            }
+            else if(w==true && space==false){
+             weight=weight*10+currChar-48;
+            }
           }
-          else if( dest==-1){
-            dest= currChar-48;
-          }
-          else if(weight==-1){
-            weight=currChar-48;
-          }
-          if(vertex!=-1 && dest!=-1 && weight!=-1){
+          else{
+            if(v==true && d==true && w==true){
               node* Hcopy=head;
               while(Hcopy->node_num!=dest){
                 Hcopy=Hcopy->next;
               }
               if(Hcopy->node_num==dest){
                 add_firste(&head,vertex,Hcopy,weight);
-                dest=-1;
-                weight=-1;
+                d=false;
+                w=false;
               }
+
+            }
           }
         }
         
         
-        
         else{
-        printf("counter=%d\n", counter);
-      if(counter==1){
-        arr=(int*)malloc(sizeof(int));
-      }
-      if(!arr){
-        //problem
-       // return;
-      }
-      if(counter>1){
-         arr= realloc(arr, 1*sizeof(int));
-      }
-      if(!arr){
-        //problem
-        //return;
-      }
+          if(currChar!=' '){
+        //printf("counter=%d\n", counter);
+      // if(counter==1){
+      //   arr=(int*)malloc(sizeof(int));
+      // }
+      // if(!arr){
+      //   //problem
+      //  // return;
+      // }
+      // if(counter>1){
+      //    arr= realloc(arr, 1*sizeof(int));
+      // }
+      // if(!arr){
+      //   //problem
+      //   //return;
+      // }
       printf("this is a number\n");
-      arr[counter-1]=currChar-48;
-      printf("printong num %d\n",arr[counter-1]);
-      counter++;
+      // arr[counter-1]=currChar-48;
+      // printf("printong num %d\n",arr[counter-1]);
+      //counter++;
+      numnodes=numnodes*10+currChar-48;
+          }
         }
       }
     }
@@ -133,36 +170,59 @@ int main(){
         space=true;
       } 
       
-      else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+      if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n' || currChar==EOF){
+        prev_req=req;
         req=currChar;
-        if(currChar=='B'){
-          vertex=-1;
+        if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'){
+          added=false;
+          v=false;
+        }
+      }
+      else{
+        if(currChar!=' '){
+           if(v==false && space==true && d==false && w==false ){
+            vertex=currChar-48;
+            v=true;
+            space=false;
+          }
+          else if(v==true && space==false && d==false && w==false ){
+            v=v*10+currChar-48;
+          }
+          else if( d==false&& w==false && space==true){
+            dest= currChar-48;
+            d=true;
+            space=false;
+          }
+          else if(d==true && w==false && space==false){
+              dest=dest*10+currChar-48;
+          }
+          else if(w==false && space==true){
+            weight=currChar-48;
+            w=true;
+            space=false;
+          }
+          else if(w==true && space==false){
+            weight=weight*10+currChar-48;
+          }
         }
         else{
-           if(vertex==-1){
-            vertex=currChar-48;
-          }
-          else if( dest==-1){
-            dest= currChar-48;
-          }
-          else if(weight==-1){
-            weight=currChar-48;
-          }
-          if(vertex!=-1 && dest!=-1 && weight!=-1){
+          if(v==true && d==true && w==true && space==true){
               node* Hcopy=head;
-              add(&head, vertex);
+              if(added==false){
+                add(&head, vertex);
+                added=true;
+              }
               while(Hcopy->node_num!=dest){
                 Hcopy=Hcopy->next;
               }
               if(Hcopy->node_num==dest){
                 add_firste(&head,vertex,Hcopy,weight);
-                dest=-1;
-                weight=-1;
+                d=false;
+                w=false;
               }
           }
         }
       }
-      //do somthing
     }
 
 
@@ -172,6 +232,7 @@ int main(){
         space=true;
       } 
       else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+        prev_req=req;
         req=currChar;
         if(currChar=='D'){
           vertex=-1;
@@ -192,6 +253,7 @@ int main(){
         space=true;
       } 
       else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+        prev_req=req;
         req=currChar;
         if(currChar=='S'){
           vertex=-1;
@@ -219,6 +281,7 @@ int main(){
       } 
       
       else if(currChar=='A'||currChar=='B'||currChar=='D'||currChar=='S'||currChar=='T'|| currChar=='\n'){
+        prev_req=req;
         req=currChar;
         if(currChar=='T'){
           length=0;
@@ -226,14 +289,16 @@ int main(){
           free(tsparr);
         }
       }
-      if(length==0 && currChar!=32 && (currChar!='A'&&currChar!='B'&&currChar!='D'&&currChar!='S'&&currChar!='T'&& currChar!='\n')){
-        length=currChar-48;
+      if(currChar!=' ' && currChar!='A' &&currChar!='B' &&currChar!='D' &&currChar!='S' &&currChar!='T' && currChar!='\n'){
+          if(length==0){
+            length=currChar-48;
+          }
       }
       else{
         tsparr[counttsp]=currChar-48;
         counttsp=counttsp+1;
       } 
-      if(length!=0){
+      if(length!=0 && currChar!=32){
         tsparr =(int*)malloc(length*sizeof(int));
         if(!tsparr){
           // problem
@@ -250,16 +315,50 @@ int main(){
 
 
 
-    if(req=='\n'){
-      free(arr);
-      free(tsparr);
+    if(req=='\n' || req==EOF){
+      
+      if(prev_req=='A'){
+        if(v==true && d==true && w==true){
+              node* Hcopy=head;
+              while(Hcopy->node_num!=dest){
+                Hcopy=Hcopy->next;
+              }
+              if(Hcopy->node_num==dest){
+                add_firste(&head,vertex,Hcopy,weight);
+                d=false;
+                w=false;
+              }
+        }
+      }
+      if(prev_req=='B'){
+        if(v==true && d==true && w==true){
+              node* Hcopy=head;
+               if (added==false){
+                add(&head,vertex);
+              }
+              while(Hcopy->node_num!=dest){
+                Hcopy=Hcopy->next;
+              }
+              if(Hcopy->node_num==dest){
+                add_firste(&head,vertex,Hcopy,weight);
+                d=false;
+                w=false;
+              }
+          }
+      }  
+      print_list(head);
+      // if(!arr){
+      // free(arr);
+      // }
+      // if(!tsparr){
+      // free(tsparr);
+      // }
       deleten(&head);
       break;
-    }
 
   }
 
-
+  }
 return 0;
 
 }
@@ -288,7 +387,7 @@ return 0;
 
 
 
-
+/*
  // if (req == 'A' || req == 'B' || req == 'S' || req == 'D' || req == 'T'){ 
 // if(req=='A'){
 //          if (req == 'A'){
@@ -396,3 +495,4 @@ return 0;
 //    // printf("num of nodes is %d\n", a);
 
 //   // print_list(Head1);
+*/

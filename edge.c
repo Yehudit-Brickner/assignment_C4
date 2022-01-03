@@ -41,13 +41,14 @@ void add_firste(node** H, int src_id, node* dest, int weight){
 }
 
 
-void deletee(edge** H){
+void deletee(edge** H ,node* n){
     if(!(*H)){
         return;
     }
     if(!(*H)->next){
        // *H=NULL;
-        free(H);
+        free(*H);
+        H=NULL;
     }
     else{
         while((*H)!=NULL){
@@ -62,6 +63,7 @@ void deletee(edge** H){
         // H=NULL;
         // free(H);
     }
+    n->edges=NULL;
 }
 
 
