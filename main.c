@@ -322,6 +322,7 @@ int main(){
           }
           length=0;
           counttsp=0;
+          t=0;
           }
         }
       
@@ -362,6 +363,7 @@ int main(){
           length=0;
           counttsp=0;
           tsp=false;
+          t=0;
         }
       }
       }
@@ -426,6 +428,7 @@ int main(){
 
       if (prev_req=='T'){
         if(tsparr){
+          tsparr[counttsp]=t;
           TSP_cmd(&head,tsparr,length);
           free(tsparr);
       }

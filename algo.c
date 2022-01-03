@@ -155,7 +155,7 @@ int* dijakstra(node **H, node *src){
 
 void shortsPath_cmd(node **head , int src,int dest){
     if(src==dest){
-        printf("Dijsktra shortest path: 0\n") ;
+        printf("Dijsktra shortest path: 0 \n") ;
     }
     else{
         node *hcopy1=*head;
@@ -163,7 +163,7 @@ void shortsPath_cmd(node **head , int src,int dest){
             hcopy1=hcopy1->next;
         }
         if(hcopy1->node_num!=dest){  
-            printf("Dijsktra shortest path: -1\n");
+            printf("Dijsktra shortest path: -1 \n");
             return; 
         }
 
@@ -195,7 +195,12 @@ void shortsPath_cmd(node **head , int src,int dest){
                 }
                 else{
                 stop=1;
-                printf("Dijsktra shortest path: %d\n",d[count]) ;
+                    if(d[count]!=INT_MAX){
+                        printf("Dijsktra shortest path: %d \n",d[count]) ;
+                    }
+                    else{
+                        printf("Dijsktra shortest path: = -1 \n"); 
+                    }
                 }
             }
 
@@ -203,7 +208,7 @@ void shortsPath_cmd(node **head , int src,int dest){
         free(d);  
         }
         else{   
-            printf("Dijsktra shortest path: = -1\n");
+            printf("Dijsktra shortest path: = -1 \n");
         }
     }
 }
@@ -218,7 +223,7 @@ void swap(int *x, int *y)
 }
 
 
-void permute(int *a, int left, int right, int lengtha , int **mat, int low, int count, int max,int *arr){
+void permute(int *a, int left, int right, int lengtha , int **mat, int *low, int count, int max,int *arr){
 
     if (left == right){
         // for (int j=0;j<lengtha;j++){
@@ -250,12 +255,12 @@ void permute(int *a, int left, int right, int lengtha , int **mat, int low, int 
         
 
         // printf("= %d \n",sum);
-        if (sum < low){
-            low =sum;
+        if (sum < *low){
+            *low =sum;
         }
         for (int k=0;k<max;k++){
             if(arr[k]==INT_MAX){
-                arr[k]=low;
+                arr[k]=*low;
                 break;
             }
         }
@@ -274,15 +279,19 @@ void permute(int *a, int left, int right, int lengtha , int **mat, int low, int 
 
 
 void TSP_cmd(node **head, int* arr, int length){
+    // for (int i=0; i<length;i++){
+    //     printf("%d,",arr[i]);
+    // }
+    // printf("\n");
     
-    //printf("starting tsp\n");
+    // //printf("starting tsp\n");
     for (int i=0;i<length;i++){
         node *hcopy=*head;
         while(hcopy->next && hcopy->node_num!=arr[i]){
             hcopy=hcopy->next;
         }
         if(hcopy->node_num!=arr[i]){  
-            printf("TSP shortest path: = -1\n");
+            printf("TSP shortest path: -1 \n");
             return; 
         }
     }
@@ -349,6 +358,14 @@ void TSP_cmd(node **head, int* arr, int length){
         // return not in graph
         }
     }
+
+    // for(int i=0; i<l;i++){
+    //     for (int j=0;j<l;j++){
+    //         printf("%d,",mat[i][j]);
+    //     }
+    //     printf("\n");
+    // }
+    // printf("\n");
     // finished filling in the mat
     int count=1;
     int listlen=1;
@@ -360,19 +377,27 @@ void TSP_cmd(node **head, int* arr, int length){
     for (int i=0; i<listlen;i++){
         list[i]=INT_MAX;
     }
-    permute(arr,0,length-1, length,mat, INT_MAX, 0, listlen, list);
+    int low=INT_MAX;
+    permute(arr,0,length-1, length,mat, &low, 0, listlen, list);
     
-    int ans=INT_MAX;
-    for ( int k=0; k<listlen;k++){
-        //printf("%d,", list[k]);
-        if(list[k]<ans){
-            ans=list[k];
-        }
+    int ans=low;
+    
+    // int ans=INT_MAX;
+    // for ( int k=0; k<listlen;k++){
+    //     //printf("%d,", list[k]);
+    //     if(list[k]<ans){
+    //         ans=list[k];
+    //     }
 
-    }
+    // }
            // printf("x= %d\n",x);
     //printf("\n");
-    printf("TSP shortest path: %d\n",ans);
+    if(ans!=INT_MAX){
+    printf("TSP shortest path: %d \n",ans);
+    }
+    else{
+     printf("TSP shortest path: -1 \n");   
+    }
 
     for (int i=0;i<l;i++){
         free(mat[i]);

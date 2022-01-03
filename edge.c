@@ -98,7 +98,7 @@ void remove_edge( edge** H, node* del, node* src){
         //tmp->next=NULL;
         free(tmp);
     
-        printf("deletd the first edge\n");
+       // printf("deletd the first edge\n");
     }
     else{
         edge *tmp = *H;
