@@ -65,28 +65,16 @@ void deleten(node** H){
     if(!H){
         return;
     }
-    if(!(*H)->next){
-        *H=NULL;
-        free(*H); 
+    while((*H)!=NULL){
+        node* tmp = *H;
+        *H = (*H)->next;
+        edge* e1=tmp->edges;
+        deletee(&e1, tmp);
+        free(tmp);
     }
-    else{
-        while((*H)!=NULL){
-            node* tmp = *H;
-            *H = (*H)->next;
-            edge* e1=tmp->edges;
-            deletee(&e1, tmp);
-            free(tmp);
-        }
+    H=NULL;
     
-        // node* tmp = *H;
-        // *H = (*H)->next;
-        // edge* e1=tmp->edges;
-        // deletee(&e1);
-        // tmp=NULL;
-        // free(tmp);
-        // H=NULL;
-        // free(H);
-    }
+
 }
 
 
@@ -134,7 +122,6 @@ void remove_node(node** H, int id){
             }
             Hcopy=Hcopy->next;
         }
-       // Hcopy=Hcopy->next;
 
         *H=(*H)->next;
         tmp=NULL;
@@ -153,11 +140,10 @@ void remove_node(node** H, int id){
         if(Hcopy!=tmp2){
             edge* e1 = Hcopy->edges;
             remove_edge(&e1,tmp2,Hcopy);
-            //break;
         }
         Hcopy=Hcopy->next;
     }
-   // Hcopy=Hcopy->next;
+
 
 
     
@@ -168,28 +154,3 @@ void remove_node(node** H, int id){
     
           
 }
-
-/*
-// int main(){
-
-
-//     printf("helloworld\n");
-//      node* Head1;
-//      for (int i=0; i<20;i++){
-//         add_first(&Head1,i);
-//      }
-//      print_list(Head1); 
-//      for (int i=0;i<20;i=i+5){
-//          remove_node(&Head1,i);
-//      }
-//      print_list(Head1);
-//      deleten(&Head1);
-//      print_list(Head1);
-
-//     printf("helloworld\n");
-
-//     return 0;
-
-
-//  }
-*/

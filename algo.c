@@ -226,9 +226,6 @@ void swap(int *x, int *y)
 void permute(int *a, int left, int right, int lengtha , int **mat, int *low, int count, int max,int *arr){
 
     if (left == right){
-        // for (int j=0;j<lengtha;j++){
-        //     printf("%d",a[j]);
-        // }
 
         // go through the list and add up from the mat ex 1-2-3 = mat[1][2]+mat[2][3]
         int sum=0;
@@ -279,12 +276,6 @@ void permute(int *a, int left, int right, int lengtha , int **mat, int *low, int
 
 
 void TSP_cmd(node **head, int* arr, int length){
-    // for (int i=0; i<length;i++){
-    //     printf("%d,",arr[i]);
-    // }
-    // printf("\n");
-    
-    // //printf("starting tsp\n");
     for (int i=0;i<length;i++){
         node *hcopy=*head;
         while(hcopy->next && hcopy->node_num!=arr[i]){
@@ -295,9 +286,7 @@ void TSP_cmd(node **head, int* arr, int length){
             return; 
         }
     }
-    //make a length+1 x length+1 matrix
     int l =length+1;
-    //int *mat[l][l];
     int** mat = (int**)malloc(l * sizeof(int*));
 
     for (int index=0;index<l;++index){
@@ -359,14 +348,6 @@ void TSP_cmd(node **head, int* arr, int length){
         }
     }
 
-    // for(int i=0; i<l;i++){
-    //     for (int j=0;j<l;j++){
-    //         printf("%d,",mat[i][j]);
-    //     }
-    //     printf("\n");
-    // }
-    // printf("\n");
-    // finished filling in the mat
     int count=1;
     int listlen=1;
     while (count<=length){
@@ -382,16 +363,7 @@ void TSP_cmd(node **head, int* arr, int length){
     
     int ans=low;
     
-    // int ans=INT_MAX;
-    // for ( int k=0; k<listlen;k++){
-    //     //printf("%d,", list[k]);
-    //     if(list[k]<ans){
-    //         ans=list[k];
-    //     }
-
-    // }
-           // printf("x= %d\n",x);
-    //printf("\n");
+  
     if(ans!=INT_MAX){
     printf("TSP shortest path: %d \n",ans);
     }
@@ -412,100 +384,3 @@ void TSP_cmd(node **head, int* arr, int length){
 
 
 
-// int main(){
-//     int a = INT_MAX;
-//     printf("hello yehudit %d\n", a);
-
-    // pnode Head1;
-    // Head1 = (pnode)malloc(sizeof(node));
-    // Head1->node_num = 0;
-    // Head1->edges = NULL;
-    // Head1->next = NULL;
-
-//     print_list(Head1);
-
-//     for (int i = 1; i < 10; i++){
-//         add(&Head1, i);
-//     }
-
-//     // making sure that adding edges workes
-//     node *tmp2 = NULL;
-//     node *Hcopy = Head1;
-//     int weights[] = {2, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15, 1, 6, 16, 10, 12, 14 ,20, 5, 7 ,9 ,15};
-//     int count = 0;
-//     for (int i = 0; i < 10; i++){
-//         node *Hcopy = Head1;
-//         while (Hcopy){
-//             if (Hcopy->node_num == i){
-//                 tmp2 = Hcopy;
-//                 break;
-//             }
-//             Hcopy = Hcopy->next;
-//         }
-//         for (int j = 0; j < 10; j=j+2){
-//             if (j != i){
-//                 add_firste(&Head1, j, tmp2, weights[count]);
-//                 count = count + 1;
-//             }
-//         }
-//     }
-//     print_list(Head1);
-
-    
-// int arr[]={8,6,2,4,0};
-// TSP_cmd(&Head1, arr,5);
-
-
-
-
-
-// /*
-//     shortsPath_cmd(&Head1, 3,2);
-//     shortsPath_cmd(&Head1, 0,2);
-//     shortsPath_cmd(&Head1, 2,2);
-
-//     // int *array = dijakstra(&Head1, Head1);
-//     // printf("print array\n");
-//     // for (int i = 0; i < 4; i++)
-//     // {
-//     //     printf("%d,", array[i]);
-//     // }
-//     // printf("\n");
-
-    
-//     // a=find_num_nodes(&Head1);
-//     // printf("num of nodes is %d\n",a)  ;
-//     // print_list(Head1);
-//     // printf("removing 0 ( end of link)\n");
-//     // remove_node(&Head1, 0);
-//     // a=find_num_nodes(&Head1);
-//     // printf("num of nodes is %d\n",a)  ;
-//     // print_list(Head1);
-//     // printf("removing 3(begining of link)\n");
-//     // remove_node(&Head1, 3);
-//     // a=find_num_nodes(&Head1);
-//     // printf("num of nodes is %d\n",a)  ;
-//     // print_list(Head1);
-//     // printf("adding\n");
-//     // for (int i=1;i<5;i++){
-//     //      add(&Head1,i);
-//     // }
-//     // a=find_num_nodes(&Head1);
-//     // printf("num of nodes is %d\n",a)  ;
-//     // print_list(Head1);
-//     // printf("removing 2(middle of link)\n");
-//     // remove_node(&Head1, 2);
-//     // a=find_num_nodes(&Head1);
-//     // printf("num of nodes is %d\n",a)  ;
-//     // print_list(Head1);
-//     // printf("delete list\n");
-//     */
-
-//     deleten(&Head1);
-//     a = find_num_nodes(&Head1);
-//     printf("num of nodes is %d\n", a);
-
-//     print_list(Head1);
-
-//     return 0;
-// }
