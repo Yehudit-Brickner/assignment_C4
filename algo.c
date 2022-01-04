@@ -45,21 +45,6 @@ int* assigment(node **H, node *src){
 int* dijakstra(node **H, node *src){
     int num = find_num_nodes(H);
 
-    // int *visited;
-    // visited = (int *)calloc(num, sizeof(int));
-    // if (!visited){
-    //     return NULL;
-    // }
-    // node *Hcopy = *H;
-    // int i = 1;
-    // visited[0] = src->node_num;
-    // while (Hcopy){
-    //     if (Hcopy != src){
-    //         visited[i] = Hcopy->node_num;
-    //         i = i + 1;
-    //     }
-    //     Hcopy = Hcopy->next;
-    // }
 
     int *visited = assigment(H, src);
     if(visited==NULL){
@@ -79,15 +64,7 @@ int* dijakstra(node **H, node *src){
     
     
     
-    // print for self check
-   // for (int i = 0; i < 4; i++){
-   //     printf("%d,", dist[i]);
-   // }
-  //  printf("\n");
 
-    // starting the actual algo
-    //filling initial distance from src to all others
-   // node *copy = *H;
     for (int j = 1; j < num; j++){
         edge *ecopy = src->edges;
         while (ecopy != NULL && ecopy->endpoint->node_num != visited[j]){
@@ -99,16 +76,7 @@ int* dijakstra(node **H, node *src){
             }
         }
     }
-//    printf("dist should have the initial distance from src to all other\n");
-//    // print for self check
-//    for (int i = 0; i < num; i++){
-//        printf("%d,", dist[i]);
-//    }
-//    printf("\n");
-//     for (int i = 0; i < num; i++){
-//        printf("%d,", visited[i]);
-//    }
-//    printf("\n");
+
     
 
     for (int j=1;j<num;j++){
@@ -118,7 +86,6 @@ int* dijakstra(node **H, node *src){
             copy=copy->next;    
         }
         if(copy->node_num==visited[j]){
-          //  edge* ee=copy->edges;
             for(int k=1; k<num;k++){
                 edge* ee=copy->edges;
                 if(k!=j){
@@ -137,16 +104,7 @@ int* dijakstra(node **H, node *src){
                 }
             }
         }
-//        // print for self check
-//        printf("after the j=%d iteratin \n",j);
-//    for (int i = 0; i < num; i++){
-//        printf("%d,", dist[i]);
-//    }
-//    printf("\n"); 
-
     }
-
-
 
     free(visited);
     return (dist);
@@ -176,15 +134,14 @@ void shortsPath_cmd(node **head , int src,int dest){
             int *d;
             a=assigment(head,hcopy);
             if(a==NULL){
-                //return problem
+                printf("problem alocating memory, coudnt run function Shortest Path\n");
+                return;
             }
             d=dijakstra(head,hcopy);
             if(d==NULL){
-                //return problem  
+                free(a);
+                printf("problem alocating memory, coudnt run function Shortest Path\n");
             }
-            // node *hcopy2=*head;
-            // while(hcopy2 && hcopy2->node_num!=dest){
-            // hcopy2=hcopy2->next;
 
             int num= find_num_nodes(head);
             int count=1;
@@ -288,9 +245,18 @@ void TSP_cmd(node **head, int* arr, int length){
     }
     int l =length+1;
     int** mat = (int**)malloc(l * sizeof(int*));
-
+    if(!mat){
+        printf("problem alocating memory, coudnt run function TSP\n");
+    }
     for (int index=0;index<l;++index){
         mat[index] = (int*)malloc(l * sizeof(int));
+        if(!mat[index]){
+          printf("problem alocating memory, coudnt run function TSP\n");
+          for (int j=0;j<index;j++){
+              free(mat[j]);
+          } 
+          free(mat); 
+        }
     }    
 
     for(int i=0; i<l;i++){
@@ -319,7 +285,22 @@ void TSP_cmd(node **head, int* arr, int length){
         if(hcopy->node_num==arr[i]){  
             //found src  
             int *a = assigment(head, hcopy);
+            if(!a){
+                printf("problem alocating memory, coudnt run function TSP\n");
+                for (int i=0;i<l;i++){
+                    free(mat[i]);
+                }
+                free(mat);
+            }
             int *d = dijakstra(head, hcopy);
+            if(!d){
+                printf("problem alocating memory, coudnt run function TSP\n");
+                for (int i=0;i<l;i++){
+                    free(mat[i]);
+                }
+                free(mat);
+                free(a);
+            }
             // find the row that we are lookin for
             int r =a[0];
             int row=0;

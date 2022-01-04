@@ -309,16 +309,24 @@ int main(){
           tsparr =(int*)malloc(t*sizeof(int));
           length=t;
           tsp=false;
+          if(!tsparr){
+            printf("no memory allocated cant run tsp\n");
+          }
         }
 
         else if(counttsp<length){
-        tsparr[counttsp]=t;
-        tsp=false;
-        counttsp=counttsp+1;
+          if(tsparr){
+            tsparr[counttsp]=t;
+          }
+            tsp=false;
+            counttsp=counttsp+1;
+          
         }
         if(counttsp==length && length>0){
-          TSP_cmd(&head,tsparr,length);
-          free(tsparr);
+          if(tsparr){
+            TSP_cmd(&head,tsparr,length);
+            free(tsparr);
+          }
           length=0;
           counttsp=0;
           tsp=false;
